@@ -14,7 +14,7 @@ class Book {
     }
 
     getDetails() {
-        return `Title: ${this.title}, Author: ${this.author}, ISBN: $${this.isbn}, Copies: ${this.copies}`;
+        return `Title: ${this.title}, Author: ${this.author}, ISBN: ${this.isbn}, Copies: ${this.copies}`;
     }
 
     updateCopies(quantity) {
@@ -88,8 +88,39 @@ class Library {
     listBooks() {
         this.books.forEach(book => console.log(book.getDetails()));
     }
+
+    lendBook(borrowerId, isbn) {
+        let index = this.books.findIndex((element) => element.isbn === isbn);
+
+        console.log(index);
+
+        if (index == -1){
+            console.log("Book Not Found");
+        }
+        else if(this.books[index].copies <= 0) {
+           console.log("No Copies Available");
+        }
+        else {
+            this.books[index].copies--;
+            this.borrowers.push(new Borrower("", borrowerId, this.books[index].title));
+        }
+    }
 }
 
 const library = new Library();
 library.addBook(book1);
 library.listBooks();
+
+////////////////////////////////////////
+// Task 4: Implementing Book Borrowing //
+////////////////////////////////////////
+
+console.log("--------------------------------------");
+console.log("Task 4: Implementing Book Borrowing");
+
+// Added lendBook to Library class
+
+library.lendBook(201, 123456);
+console.log(book1.getDetails());
+
+console.log(borrower1.borrowedBooks);
