@@ -105,22 +105,50 @@ class Library {
             this.borrowers.push(new Borrower("", borrowerId, this.books[index].title));
         }
     }
+
+    returnBook(borrowerId, isbn) {
+        let index = this.books.findIndex((element) => element.isbn === isbn);
+
+        console.log(index);
+
+        if (index == -1){
+            console.log("Book Not Found");
+        }
+        else {
+            this.books[index].copies++;
+        }
+    }
+
 }
 
 const library = new Library();
 library.addBook(book1);
 library.listBooks();
 
-////////////////////////////////////////
+/////////////////////////////////////////
 // Task 4: Implementing Book Borrowing //
-////////////////////////////////////////
+/////////////////////////////////////////
 
 console.log("--------------------------------------");
 console.log("Task 4: Implementing Book Borrowing");
 
-// Added lendBook to Library class
+// Added lendBook method to Library class
 
 library.lendBook(201, 123456);
+console.log(book1.getDetails());
+
+console.log(borrower1.borrowedBooks);
+
+///////////////////////////////////////
+// Task 5: Implementing Book Returns //
+///////////////////////////////////////
+
+console.log("--------------------------------------");
+console.log("Task 5: Implementing Book Returns");
+
+// Added returnBook method to Library Class
+
+library.returnBook(201, 123456);
 console.log(book1.getDetails());
 
 console.log(borrower1.borrowedBooks);
