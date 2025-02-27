@@ -85,6 +85,10 @@ class Library {
         this.books.push(book)
     }
 
+    addBorrower(borrower) {
+        this.borrowers.push(borrower)
+    }
+
     listBooks() {
         this.books.forEach(book => console.log(book.getDetails()));
     }
@@ -101,21 +105,31 @@ class Library {
            console.log("No Copies Available");
         }
         else {
-            this.books[index].copies--;
-            this.borrowers.push(new Borrower("", borrowerId, this.books[index].title));
+            let borrowerIndex = this.borrowers.findIndex((element) => element.borrowerId === borrowerId);
+            if (borrowerIndex == -1) {
+                console.log("Borrower Not In Library")
+            }
+            else {
+                this.books[index].copies--;
+                this.borrowers[borrowerIndex].borrowBook(this.books[index].title);
+            }
         }
     }
 
     returnBook(borrowerId, isbn) {
-        let index = this.books.findIndex((element) => element.isbn === isbn);
+        let bookIndex = this.books.findIndex((element) => element.isbn === isbn);
+        let borrowerIndex = this.borrowers.findIndex((element) => element.borrowerId === borrowerId);
+        console.log(bookIndex);
 
-        console.log(index);
-
-        if (index == -1){
-            console.log("Book Not Found");
+        if (bookIndex == -1){
+            console.log("Book Not Found In Library");
+        }
+        else if (borrowerIndex == -1) {
+            console.log("Borrower Not Found In Library")
         }
         else {
-            this.books[index].copies++;
+            this.books[bookIndex].copies++;
+            this.borrowers[borrowerIndex].returnBook(this.books[bookIndex].title);
         }
     }
 
@@ -123,6 +137,7 @@ class Library {
 
 const library = new Library();
 library.addBook(book1);
+library.addBorrower(borrower1)
 library.listBooks();
 
 /////////////////////////////////////////
